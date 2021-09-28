@@ -1,0 +1,57 @@
+{
+    "name": "Untitled design",
+    "objects": [
+      {
+        "left": 508.9417413884061,
+        "top": 205.57577042950481,
+        "width": 91.85693359375,
+        "height": 32.77,
+        "originX": "left",
+        "originY": "top",
+        "type": "StaticText",
+        "metadata": {
+          "angle": 90,
+          "fill": "#000",
+          "fontSize": 29,
+          "template": "Simran",
+          "fontFamily": "arial",
+          "textAlign": "center",
+          "text": "Simran\nType",
+          "padding": 5
+        },
+        "canvas": {
+          "width": 1883,
+          "height": 942
+        }
+      },
+      {
+        "top": 102.56448202959828,
+        "left": 719.471648118707,
+        "width": 2434,
+        "height": 1697,
+        "originX": "left",
+        "originY": "top",
+        "scaleX": 0.15,
+        "scaleY": 0.15,
+        "type": "StaticImage",
+        "metadata": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/4/41/Sunflower_from_Silesia2.jpg"
+        },
+        "canvas": {
+          "width": 1883,
+          "height": 942
+        }
+      }
+    ],
+    "background": {
+      "type": "color",
+      "value": "#c44569"
+    },
+    "frame": {
+      "width": 1280,
+      "height": 720
+    },
+    "preview": "https://d3q7mfli5umxdg.cloudfront.net/1632431060180_954892.png",
+    "id": "LOhgYV4WoviSEwwUGRmDd"
+  }
+  

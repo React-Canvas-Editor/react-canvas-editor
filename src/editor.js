@@ -6,6 +6,7 @@ import StaticText from "./Objects/StaticText";
 import StaticVector from "./Objects/StaticVector";
 import StaticImage from "./Objects/StaticImage";
 import { loadImageFromURL } from "./Objects/image-loader";
+import Navbar from "./navbar";
 
 class Editor extends Component {
   constructor(props) {
@@ -406,6 +407,16 @@ class Editor extends Component {
     }
     return (
       <div id="Canvas">
+          <Navbar>
+        <a
+            download={"image.png"}
+            className="download"
+            href={this.state.href}
+            onClick={(e) => this.download(e)}
+          >
+            Download
+          </a>
+        </Navbar>
         <button onClick={this.addText}>Add Text </button>
         <div>
           <label>Text color </label>
@@ -513,7 +524,7 @@ class Editor extends Component {
             onChange={this.onImageChange}
           />
         </div>
-        <div>
+        {/* <div>
           <a
             download={"image.png"}
             href={this.state.href}
@@ -521,7 +532,7 @@ class Editor extends Component {
           >
             Download
           </a>
-        </div>
+        </div> */}
         <TwitterPicker
           color={this.state.backgroundColor}
           onChange={this.onColorChange}

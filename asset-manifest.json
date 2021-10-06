@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/react-canvas-editor/static/css/main.93a1f915.chunk.css",
-    "main.js": "/react-canvas-editor/static/js/main.f8239343.chunk.js",
-    "main.js.map": "/react-canvas-editor/static/js/main.f8239343.chunk.js.map",
+    "main.css": "/react-canvas-editor/static/css/main.a42992c9.chunk.css",
+    "main.js": "/react-canvas-editor/static/js/main.48ab4889.chunk.js",
+    "main.js.map": "/react-canvas-editor/static/js/main.48ab4889.chunk.js.map",
     "runtime-main.js": "/react-canvas-editor/static/js/runtime-main.7529859c.js",
     "runtime-main.js.map": "/react-canvas-editor/static/js/runtime-main.7529859c.js.map",
-    "static/js/2.71e7f916.chunk.js": "/react-canvas-editor/static/js/2.71e7f916.chunk.js",
-    "static/js/2.71e7f916.chunk.js.map": "/react-canvas-editor/static/js/2.71e7f916.chunk.js.map",
+    "static/js/2.430a6382.chunk.js": "/react-canvas-editor/static/js/2.430a6382.chunk.js",
+    "static/js/2.430a6382.chunk.js.map": "/react-canvas-editor/static/js/2.430a6382.chunk.js.map",
     "index.html": "/react-canvas-editor/index.html",
-    "static/css/main.93a1f915.chunk.css.map": "/react-canvas-editor/static/css/main.93a1f915.chunk.css.map",
-    "static/js/2.71e7f916.chunk.js.LICENSE.txt": "/react-canvas-editor/static/js/2.71e7f916.chunk.js.LICENSE.txt"
+    "static/css/main.a42992c9.chunk.css.map": "/react-canvas-editor/static/css/main.a42992c9.chunk.css.map",
+    "static/js/2.430a6382.chunk.js.LICENSE.txt": "/react-canvas-editor/static/js/2.430a6382.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.7529859c.js",
-    "static/js/2.71e7f916.chunk.js",
-    "static/css/main.93a1f915.chunk.css",
-    "static/js/main.f8239343.chunk.js"
+    "static/js/2.430a6382.chunk.js",
+    "static/css/main.a42992c9.chunk.css",
+    "static/js/main.48ab4889.chunk.js"
   ]
 }

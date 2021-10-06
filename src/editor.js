@@ -524,15 +524,6 @@ class Editor extends Component {
             onChange={this.onImageChange}
           />
         </div>
-        {/* <div>
-          <a
-            download={"image.png"}
-            href={this.state.href}
-            onClick={(e) => this.download(e)}
-          >
-            Download
-          </a>
-        </div> */}
         <TwitterPicker
           color={this.state.backgroundColor}
           onChange={this.onColorChange}

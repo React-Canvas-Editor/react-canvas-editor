@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { fabric } from "fabric";
 import { TwitterPicker } from "react-color";
-import template from "./temp";
-import StaticText from "./Objects/StaticText";
-import StaticVector from "./Objects/StaticVector";
-import StaticImage from "./Objects/StaticImage";
-import { loadImageFromURL } from "./Objects/image-loader";
-import Navbar from "./navbar";
+import template from "../../temp.json";
+import StaticText from "../../Utils/Objects/StaticText";
+import StaticVector from "../../Utils/Objects/StaticVector";
+import StaticImage from "../../Utils/Objects/StaticImage";
+import { loadImageFromURL } from "../../Utils/Objects/image-loader";
+import Navbar from "../Navbar";
 
 class Editor extends Component {
   constructor(props) {

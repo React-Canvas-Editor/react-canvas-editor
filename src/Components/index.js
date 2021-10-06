@@ -1,10 +1,10 @@
-import Canavs from "./Components";
-import "./styles.css";
+import Editor from "./Editor";
+import "../styles.css";
 
 export default function App() {
   return (
     <div className="App">
-      <Canavs />
+      <Editor />
     </div>
   );
 }

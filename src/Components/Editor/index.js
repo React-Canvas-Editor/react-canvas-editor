@@ -7,6 +7,8 @@ import StaticVector from "../../Utils/Objects/StaticVector";
 import StaticImage from "../../Utils/Objects/StaticImage";
 import { loadImageFromURL } from "../../Utils/Objects/image-loader";
 import Navbar from "../Navbar";
+import { connect } from "react-redux";
+import { setCanvas } from "../../Actions/editor";
 
 class Editor extends Component {
   constructor(props) {
@@ -33,7 +35,9 @@ class Editor extends Component {
       preserveObjectStacking: true
     });
 
+    this.props.setCanvas({ canvas });
     this.setState({ canvas });
+
 
     document.addEventListener("keydown", this.onHandleKeyDown);
   }
@@ -396,6 +400,7 @@ class Editor extends Component {
   };
 
   render() {
+    console.log(this.props.editorState)
     let options = [];
     for (let i = 1; i < 17; i++) {
       options.push(
@@ -407,8 +412,9 @@ class Editor extends Component {
     }
     return (
       <div id="Canvas">
-          <Navbar>
-        <a
+
+        <Navbar>
+          <a
             download={"image.png"}
             className="download"
             href={this.state.href}
@@ -544,5 +550,17 @@ class Editor extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    editorState: state.editor
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    setCanvas: (data) => {
+      return dispatch(setCanvas(data));
+    }
+  };
+};
 
-export default Editor;
+export default connect(mapStateToProps, mapDispatchToProps)(Editor);

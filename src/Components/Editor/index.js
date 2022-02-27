@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { fabric } from "fabric";
 import { TwitterPicker } from "react-color";
-import template from "../../temp.json";
 import StaticText from "../../Utils/Objects/StaticText";
 import StaticVector from "../../Utils/Objects/StaticVector";
 import StaticImage from "../../Utils/Objects/StaticImage";
-import { loadImageFromURL } from "../../Utils/Objects/image-loader";
 import Navbar from "../Navbar";
 import { connect } from "react-redux";
 import { setCanvas } from "../../Actions/editor";
+import BackgroundImage from "../PanelBar/background";
+import Template from "../PanelBar/template";
+import UploadImage from "../PanelBar/uploadImage";
+import TextPanel from "../PanelBar/textPanel";
 
 class Editor extends Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class Editor extends Component {
       href: "",
       color: "#000000",
       canvasScale: 1,
-      backgroundImage: ""
+      backgroundImage: "",
     };
     this.container = React.createRef();
   }
@@ -32,12 +34,11 @@ class Editor extends Component {
       backgroundColor: "#FDEFEF",
       height: clientHeight,
       width: clientWidth,
-      preserveObjectStacking: true
+      preserveObjectStacking: true,
     });
 
     this.props.setCanvas({ canvas });
     this.setState({ canvas });
-
 
     document.addEventListener("keydown", this.onHandleKeyDown);
   }
@@ -46,20 +47,6 @@ class Editor extends Component {
     if (event.which === 46) {
       this.deleteActiveObject();
     }
-  };
-
-  addText = () => {
-    const { canvas } = this.state;
-    canvas.add(
-      new fabric.IText("Tap and Type", {
-        fontFamily: "arial",
-        fill: this.state.color,
-        fontSize: 29,
-        padding: 5,
-        left: 0,
-        right: 0
-      })
-    );
   };
 
   addBackground = (url) => {
@@ -77,7 +64,7 @@ class Editor extends Component {
             },
             {
               scaleX: canvas.width / img.width,
-              scaleY: canvas.height / img.height
+              scaleY: canvas.height / img.height,
             }
           );
         }
@@ -105,120 +92,6 @@ class Editor extends Component {
       canvas.renderAll();
     }
   };
-  textColorChange = (e) => {
-    const { canvas } = this.state;
-    if (canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fill", e.target.value);
-      canvas.renderAll();
-    }
-    this.setState({ color: e.target.value });
-  };
-
-  textBgColorChange = (e) => {
-    const { canvas } = this.state;
-    if (canvas.getActiveObject()) {
-      canvas.getActiveObject().set("backgroundColor", e.target.value);
-      canvas.renderAll();
-    }
-  };
-
-  onBold = (e) => {
-    const { canvas } = this.state;
-    if (e.target.checked) {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("fontWeight", "bold");
-        canvas.renderAll();
-      }
-    } else {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("fontWeight", "");
-        canvas.renderAll();
-      }
-    }
-  };
-
-  onItalic = (e) => {
-    const { canvas } = this.state;
-    if (e.target.checked) {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("fontStyle", "italic");
-        canvas.renderAll();
-      }
-    } else {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("fontStyle", "");
-        canvas.renderAll();
-      }
-    }
-  };
-
-  onUnderline = (e) => {
-    const { canvas } = this.state;
-    if (e.target.checked) {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("underline", true);
-        canvas.renderAll();
-      }
-    } else {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("underline", false);
-        canvas.renderAll();
-      }
-    }
-  };
-
-  onLinethrough = (e) => {
-    const { canvas } = this.state;
-    if (e.target.checked) {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("linethrough", true);
-        canvas.renderAll();
-      }
-    } else {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("linethrough", false);
-        canvas.renderAll();
-      }
-    }
-  };
-
-  onOverline = (e) => {
-    const { canvas } = this.state;
-    if (e.target.checked) {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("overline", true);
-        canvas.renderAll();
-      }
-    } else {
-      if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("overline", false);
-        canvas.renderAll();
-      }
-    }
-  };
-
-  onFontSize = (e) => {
-    const { canvas } = this.state;
-    if (canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fontSize", e.target.value);
-      canvas.renderAll();
-    }
-    this.setState({ fontSize: e.target.value });
-  };
-
-  onImageChange = (e) => {
-    const { canvas } = this.state;
-    var url = URL.createObjectURL(e.target.files[0]);
-    fabric.Image.fromURL(
-      url,
-      (img) => {
-        canvas.add(img);
-        canvas.renderAll();
-      },
-      { scaleX: 0.15, scaleY: 0.15 }
-    );
-    console.log(canvas.getObjects());
-  };
 
   deleteActiveObject = () => {
     const { canvas } = this.state;
@@ -232,125 +105,11 @@ class Editor extends Component {
     const { canvas } = this.state;
     const image = canvas.toDataURL({
       format: "png",
-      quality: 1
+      quality: 1,
     });
     this.setState({ href: image });
   };
 
-  addTemplate = async () => {
-    const { canvas } = this.state;
-    canvas.clear();
-    if (canvas) {
-      canvas.backgroundColor = template.background.value;
-      canvas.renderAll();
-    }
-    for (const object of template.objects) {
-      const element = await this.importTemplate(object);
-      if (element) {
-        canvas.add(element);
-        canvas.renderAll();
-      } else {
-        console.log("UNABLE TO LOAD OBJECT: ", object.type);
-      }
-    }
-  };
-  importTemplate = async (item) => {
-    let object;
-    switch (item.type) {
-      case "StaticText":
-        object = await this.staticText(item);
-        break;
-      case "StaticImage":
-        object = await this.staticImage(item);
-        break;
-    }
-    return object;
-  };
-
-  staticText = (item) => {
-    return new Promise((resolve, reject) => {
-      try {
-        const baseOptions = this.getBaseOptions(item, "text");
-        const metadata = item.metadata;
-        const oldCanvasWidth = item.canvas.width;
-        const newCanvasWidth = this.state.canvas.width;
-        const {
-          textAlign,
-          fontFamily,
-          fontSize,
-          fontWeight,
-          charSpacing,
-          lineheight,
-          text,
-          padding
-        } = metadata;
-        const textOptions = {
-          ...baseOptions,
-          text: text ? text : "Default Text",
-          ...(textAlign && { textAlign }),
-          ...(fontFamily && { fontFamily }),
-          ...(fontSize && {
-            fontSize: (fontSize * newCanvasWidth) / oldCanvasWidth
-          }),
-          ...(fontWeight && { fontWeight }),
-          ...(charSpacing && { charSpacing }),
-          ...(lineheight && { lineheight }),
-          ...(padding && { padding })
-        };
-        const element = new fabric.StaticText(textOptions);
-        resolve(element);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  };
-
-  staticImage = (item) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const baseOptions = this.getBaseOptions(item, "img");
-        const src = item.metadata.src;
-        const image = await loadImageFromURL(src);
-        console.log(this.state.canvasScale);
-        const { width, height } = baseOptions;
-        if (!width || !height) {
-          baseOptions.width = image.width;
-          baseOptions.height = image.height;
-        }
-        const element = new fabric.StaticImage(image, baseOptions);
-
-        resolve(element);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  };
-
-  getBaseOptions(item, type) {
-    const { left, top, width, height, scaleX, scaleY } = item;
-    let metadata = item.metadata ? item.metadata : {};
-    const { fill, angle, originX, originY } = metadata;
-    const oldCanvasWidth = item.canvas.width;
-    const oldCanvasHeight = item.canvas.height;
-    const newCanvasWidth = this.state.canvas.width;
-    const newCanvasHeight = this.state.canvas.height;
-
-    let baseOptions = {
-      angle: angle ? angle : 0,
-      top: top ? (top * newCanvasWidth) / oldCanvasWidth : 0,
-      left: left ? (left * newCanvasWidth) / oldCanvasWidth : 0,
-      width: type === "img" ? width : (width * newCanvasWidth) / oldCanvasWidth,
-      height:
-        type === "img" ? height : (height * newCanvasHeight) / oldCanvasHeight,
-      originX: originX || "left",
-      originY: originY || "top",
-      scaleX: (scaleX * newCanvasWidth) / oldCanvasWidth || 1,
-      scaleY: (scaleY * newCanvasWidth) / oldCanvasWidth || 1,
-      fill: fill || "#000000",
-      metadata: metadata
-    };
-    return baseOptions;
-  }
   zoomToPercent = (event) => {
     var percentage = Number(event.target.value) / 100;
     this.setCanvasSize(percentage);
@@ -394,13 +153,13 @@ class Editor extends Component {
       objects[i].top = tempTop;
       objects[i].setCoords();
     }
-    this.addBackground(this.state.backgroundImage);
+    this.addBackground(this.props.editorState.backgroundImage);
     this.setState({ canvasScale: percentage });
     canvas.renderAll();
   };
 
   render() {
-    console.log(this.props.editorState)
+    console.log(this.props.editorState);
     let options = [];
     for (let i = 1; i < 17; i++) {
       options.push(
@@ -412,7 +171,6 @@ class Editor extends Component {
     }
     return (
       <div id="Canvas">
-
         <Navbar>
           <a
             download={"image.png"}
@@ -423,7 +181,7 @@ class Editor extends Component {
             Download
           </a>
         </Navbar>
-        <button onClick={this.addText}>Add Text </button>
+        {/* <button onClick={this.addText}>Add Text </button>
         <div>
           <label>Text color </label>
           <input
@@ -492,20 +250,10 @@ class Editor extends Component {
               onChange={(e) => this.onFontSize(e)}
             />
           </div>
-        </div>
-        <button
-          onClick={() =>
-            this.addBackground(
-              "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            )
-          }
-        >
-          Add Background Image{" "}
-        </button>{" "}
-        <button onClick={this.removeBackground}>Remove Background </button>
-        <div>
-          <button onClick={this.addTemplate}>Add Template</button>
-        </div>
+        </div> */}
+        <TextPanel />
+        <BackgroundImage />
+        <Template />
         <div>
           <label>Zoom </label>
           <button onClick={this.zoomOut}>-</button>
@@ -520,16 +268,7 @@ class Editor extends Component {
           </select>
           <button onClick={this.zoomIn}>+</button>
         </div>
-        <div>
-          <label for="img">Upload image</label>
-          <input
-            type="file"
-            id="img"
-            name="img"
-            accept="image/*"
-            onChange={this.onImageChange}
-          />
-        </div>
+        <UploadImage />
         <TwitterPicker
           color={this.state.backgroundColor}
           onChange={this.onColorChange}
@@ -541,7 +280,7 @@ class Editor extends Component {
               width: "100%",
               height: "100%",
               border: "2px solid black",
-              margin: "auto"
+              margin: "auto",
             }}
             ref={this.container}
           ></canvas>
@@ -550,16 +289,16 @@ class Editor extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    editorState: state.editor
+    editorState: state.editor,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setCanvas: (data) => {
       return dispatch(setCanvas(data));
-    }
+    },
   };
 };
 
